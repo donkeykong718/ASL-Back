@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ASL',
     'channels',
 ]
 
@@ -67,7 +68,7 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = "project.routing.application" #routing.py will be created later
+ASGI_APPLICATION = "project.routing.application" 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer"
