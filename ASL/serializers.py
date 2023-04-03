@@ -18,10 +18,10 @@ class MessagesSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-
+    messages = serializers.PrimaryKeyRelatedField(many=True, queryset=Messages.objects.all())
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'products')
+        fields = ('id', 'username', 'email', 'password', 'messages')
         extra_kwargs = {
             'password': {
                 'write_only': True

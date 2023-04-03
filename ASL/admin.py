@@ -13,9 +13,9 @@ class MessagesResource(resources.ModelResource):
 
 class MessagesAdmin(ImportExportModelAdmin):
     resource_class = MessagesResource
-    list_display = ('chat_box', 'user', 'message', 'timestamp')
-    list_filter = ('chat_box', 'user', 'message', 'timestamp')
-    search_fields = ('chat_box', 'user', 'message', 'timestamp')
+    list_display = ('chat_name', 'user', 'message', 'timestamp')
+    list_filter = ('chat_name', 'user', 'message', 'timestamp')
+    search_fields = ('chat_name', 'user', 'message', 'timestamp')
 
 class ChatBoxResource(resources.ModelResource):
     class Meta:
@@ -23,10 +23,9 @@ class ChatBoxResource(resources.ModelResource):
 
 class ChatBoxAdmin(ImportExportModelAdmin):
     resource_class = ChatBoxResource
-    list_display = ('name', 'users')
-    list_filter = ('name', 'users')
-    search_fields = ('name', 'users')
-
+    list_display = ('name', 'users', 'all_messages')
+    list_filter = ('name', 'users', 'all_messages')
+    search_fields = ('name', 'users', 'all_messages')
 
 admin.site.register(ChatBox, ChatBoxAdmin)
 admin.site.register(Messages, MessagesAdmin)
