@@ -37,16 +37,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        user.set_password(user.password)
-        user.save()
-        return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
-
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-
-    def get_queryset(self):
-        return self.queryset.filter(creator=self.request.user)
+        password = serializer.validated_data.get('password', None)
+        serializer.save(password=make_password(password))
+    def perform_update(self, serializer):
+        password = serializer.validated_data.get('password', None)
+        serializer.save(password=make_password(password))

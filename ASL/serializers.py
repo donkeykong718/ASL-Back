@@ -8,7 +8,7 @@ class ChatBoxSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.username')
     class Meta:
         model = ChatBox
-        fields = ('id', 'name', 'users', 'messages')
+        fields = ('id', 'name', 'users', 'messages', 'creator')
 
 class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +19,7 @@ class MessagesSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     messages = serializers.PrimaryKeyRelatedField(many=True, queryset=Messages.objects.all())
+    
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'messages')
