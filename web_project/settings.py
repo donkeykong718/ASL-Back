@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-8#j$1tbkkyoy%4)gh(v2ney=bm9ka6379=23ynvc63cv#3shxk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -68,16 +69,12 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = "project.routing.application" 
+ASGI_APPLICATION = "project.routing.application"
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer"
-        }
     }
-
-
-
-
+}
 
 
 WSGI_APPLICATION = 'web_project.wsgi.application'
@@ -86,11 +83,12 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+db_name = 'asl'
+user = 'asl_admin'
+password = 'password'
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=f'postgres://{user}:{password}@localhost/{db_name}')
 }
 
 
