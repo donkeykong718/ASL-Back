@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "39bc6d01cf0a24711b5a63219d35b7218c430019faca55176a282ab75638a821"
+            "sha256": "643808ab9403f014e87b400187a219a66c807e969b91a361204e44735405fdd9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -88,13 +88,6 @@
             "markers": "python_version >= '3.6'",
             "version": "==1.1.0"
         },
-        "import-export": {
-            "hashes": [
-                "sha256:1e47906ef2cb35bedaf5082e37ead4f332f35757005a7eff85bf9aef85ea6a7b"
-            ],
-            "index": "pypi",
-            "version": "==0.3.1"
-        },
         "markuppy": {
             "hashes": [
                 "sha256:1adee2c0a542af378fe84548ff6f6b0168f3cb7f426b46961038a2bcfaad0d5f"
@@ -114,6 +107,13 @@
                 "sha256:f91456ead12ab3c6c2e9491cf33ba6d08357d802192379bb482f1033ade496f5"
             ],
             "version": "==3.1.2"
+        },
+        "pipfile": {
+            "hashes": [
+                "sha256:f7d9f15de8b660986557eb3cc5391aa1a16207ac41bc378d03f414762d36c984"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "psycopg2-binary": {
             "hashes": [
@@ -266,6 +266,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==3.4.0"
+        },
+        "toml": {
+            "hashes": [
+                "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
+                "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.10.2"
         },
         "xlrd": {
             "hashes": [

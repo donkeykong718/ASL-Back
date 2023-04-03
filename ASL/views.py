@@ -6,19 +6,48 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import viewsets, permissions, status
 from .models import ChatBox, Messages
 from .serializers import ChatBoxSerializer, MessagesSerializer, UserSerializer
+from rest_framework.decorators import action
+
 # Create your views here.
+
+
+# class MessageList (viewsets.ModelViewSet):
+#     queryset = Messages.objects.all().order_by('-timestamp')
+#     serializer_class = MessagesSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user)
+
+#     def get_queryset(self):
+#         room_id = self.kwargs['room_id']
+#         return self.queryset.filter(chat_name=room_id)
+
+
 
 
 class ChatBoxViewSet(viewsets.ModelViewSet):
     queryset = ChatBox.objects.all()
     serializer_class = ChatBoxSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    
+    
+        
+    
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+    
+  
+  
+      
+  
+      
 
-    def get_queryset(self):
-        return self.queryset.filter(creator=self.request.user)
+
+      
+
+
+
 
 
 class MessagesViewSet(viewsets.ModelViewSet):
@@ -27,26 +56,19 @@ class MessagesViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-
+        serializer.save(user=self.request.user)
+    
     def get_queryset(self):
-        return self.queryset.filter(creator=self.request.user)
+        return self.queryset.filter(user=self.request.user)
       
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        user.set_password(user.password)
-        user.save()
-        return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
-
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-
-    def get_queryset(self):
-        return self.queryset.filter(creator=self.request.user)
+        password = serializer.validated_data.get('password', None)
+        serializer.save(password=make_password(password))
+    def perform_update(self, serializer):
+        password = serializer.validated_data.get('password', None)
+        serializer.save(password=make_password(password))

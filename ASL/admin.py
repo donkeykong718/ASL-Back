@@ -23,9 +23,9 @@ class ChatBoxResource(resources.ModelResource):
 
 class ChatBoxAdmin(ImportExportModelAdmin):
     resource_class = ChatBoxResource
-    list_display = ('name', 'users', 'all_messages')
-    list_filter = ('name', 'users', 'all_messages')
-    search_fields = ('name', 'users', 'all_messages')
+    list_display = ('name', 'creator' )
+    list_filter = ('name', 'creator')
+    search_fields = ('name', 'creator')
 
 admin.site.register(ChatBox, ChatBoxAdmin)
 admin.site.register(Messages, MessagesAdmin)

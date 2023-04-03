@@ -7,7 +7,6 @@ name = "pypi"
 django = "*"
 channels = "*"
 asgiref = "*"
-import-export = "*"
 rest-framework-simplejwt = "*"
 django-import-export = "*"
 djangorestframework-simplejwt = "*"
@@ -15,6 +14,7 @@ gunicorn = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 dj-database-url = "*"
+
 
 [dev-packages]
 

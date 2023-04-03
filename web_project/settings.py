@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ASL',
     'channels',
+    'rest_framework',
+    'import_export',
+    
+    
 ]
 
 MIDDLEWARE = [
