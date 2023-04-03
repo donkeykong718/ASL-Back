@@ -9,10 +9,12 @@ channels = "*"
 asgiref = "*"
 import-export = "*"
 rest-framework-simplejwt = "*"
-psycopg2-binary = "*"
 django-import-export = "*"
-djangorestframework = "*"
 djangorestframework-simplejwt = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+djangorestframework = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
