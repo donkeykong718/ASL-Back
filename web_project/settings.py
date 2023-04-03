@@ -83,12 +83,19 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-db_name = 'asl'
-user = 'asl_admin'
-password = 'password'
+
+# To use Neon with Django, you have to create a Project on Neon and specify the project connection settings in your settings.py in the same way as for standalone Postgres.
 
 DATABASES = {
-    'default': dj_database_url.config(default=f'postgres://{user}:{password}@localhost/{db_name}')
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'd2vubhl8b2naba',
+    'USER': 'ijdtnaqzuvgnjm',
+    'PASSWORD': '8a4afdc2dc3d0eae97edbf8ce669f199805cd0e271c0e11e87f49de60d27f29b',
+    'HOST': 'ec2-44-215-1-253.compute-1.amazonaws.com',
+    'PORT': '5432',
+    'OPTIONS': {'sslmode': 'require'},
+  }
 }
 
 
