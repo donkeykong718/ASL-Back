@@ -1,74 +1,39 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.hashers import make_password
-from rest_framework import viewsets, permissions, status
-from .models import ChatBox, Messages
-from .serializers import ChatBoxSerializer, MessagesSerializer, UserSerializer
-from rest_framework.decorators import action
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.viewsets import GenericViewSet
 
-# Create your views here.
+from .models import Conversation, Message
+from .paginaters import MessagePagination
+
+from .serializers import MessageSerializer, ConversationSerializer
 
 
-# class MessageList (viewsets.ModelViewSet):
-#     queryset = Messages.objects.all().order_by('-timestamp')
-#     serializer_class = MessagesSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+class ConversationViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
+    serializer_class = ConversationSerializer
+    queryset = Conversation.objects.none()
+    lookup_field = "name"
 
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-
-#     def get_queryset(self):
-#         room_id = self.kwargs['room_id']
-#         return self.queryset.filter(chat_name=room_id)
-
-
-
-
-class ChatBoxViewSet(viewsets.ModelViewSet):
-    queryset = ChatBox.objects.all()
-    serializer_class = ChatBoxSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
-    
-        
-    
-    def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-    
-  
-  
-      
-  
-      
-
-
-      
-
-
-
-
-
-class MessagesViewSet(viewsets.ModelViewSet):
-    queryset = Messages.objects.all()
-    serializer_class = MessagesSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-    
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
-      
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+        queryset = Conversation.objects.filter(
+            name__contains=self.request.user.username
+        )
+        return queryset
 
-    def perform_create(self, serializer):
-        password = serializer.validated_data.get('password', None)
-        serializer.save(password=make_password(password))
-    def perform_update(self, serializer):
-        password = serializer.validated_data.get('password', None)
-        serializer.save(password=make_password(password))
+    def get_serializer_context(self):
+        return {"request": self.request, "user": self.request.user}
+
+
+class MessageViewSet(ListModelMixin, GenericViewSet):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.none()
+    pagination_class = MessagePagination
+
+    def get_queryset(self):
+        conversation_name = self.request.GET.get("conversation")
+        queryset = (
+            Message.objects.filter(
+                conversation__name__contains=self.request.user.username,
+            )
+            .filter(conversation__name=conversation_name)
+            .order_by("-timestamp")
+        )
+        return queryset

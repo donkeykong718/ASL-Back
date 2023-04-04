@@ -29,18 +29,33 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTH_USER_MODEL = "users.User" 
+
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
+    'django.contrib.sites',
+    'users',
     'ASL',
     'channels',
+    'channels_redis',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_celery_beat',
     'rest_framework',
-    'import_export',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'drf_spectacular',
+    
     
     
 ]
@@ -68,17 +83,22 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
 ASGI_APPLICATION = "project.routing.application" 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': "channels.layers.InMemoryChannelLayer"
-        }
-    }
 
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("ec2-44-215-1-253.compute-1.amazonaws.com", 6379)], 
+        },
+    },
+}
 
 
 

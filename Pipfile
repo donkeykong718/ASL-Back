@@ -12,7 +12,13 @@ psycopg2-binary = "*"
 django-import-export = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
-
+django-allauth = "*"
+django-crispy-forms = "*"
+crispy-bootstrap5 = "*"
+django-celery-beat = "*"
+django-cors-headers = "*"
+channels-redis = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 

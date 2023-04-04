@@ -1,30 +1,45 @@
+import uuid
+
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
+
+User = get_user_model()
 
 
+class Conversation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=128)
+    online = models.ManyToManyField(to=User, blank=True)
 
+    def get_online_count(self):
+        return self.online.count()
 
-# Create your models here.
+    def join(self, user):
+        self.online.add(user)
+        self.save()
 
-  
-class ChatBox(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_box_creator') 
-    name = models.CharField(max_length=100)
+    def leave(self, user):
+        self.online.remove(user)
+        self.save()
+
     def __str__(self):
-        return self.name
-    class Meta:
-        db_table = 'chat_box'
-  
-  
-class Messages(models.Model):
-    chat_name = models.ForeignKey(ChatBox, related_name='%(class)s_room', on_delete=models.CASCADE, default='')
-    user = models.ForeignKey(User, on_delete=models.CASCADE,)
-    message = models.CharField(max_length=1000)
+        return f"{self.name} ({self.get_online_count()})"
+
+
+class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    conversation = models.ForeignKey(
+        Conversation, on_delete=models.CASCADE, related_name="messages"
+    )
+    from_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="messages_from_me"
+    )
+    to_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="messages_to_me"
+    )
+    content = models.CharField(max_length=512)
     timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
     def __str__(self):
-        return self.message
-  
-    class Meta:
-      db_table = 'messages'
-  
+        return f"From {self.from_user.username} to {self.to_user.username}: {self.content} [{self.timestamp}]"
