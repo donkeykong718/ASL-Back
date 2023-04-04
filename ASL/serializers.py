@@ -12,8 +12,8 @@ class MessagesSerializer(serializers.ModelSerializer):
 
 class ChatBoxSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.username')
-    users = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
-    messages =  serializers.PrimaryKeyRelatedField(many=True, queryset=Messages.objects.all())
+    users = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    messages =  serializers.PrimaryKeyRelatedField(many=True, read_only=True )
     class Meta:
         model = ChatBox
         fields = '__all__'
@@ -21,11 +21,9 @@ class ChatBoxSerializer(serializers.ModelSerializer):
   
 
 class UserSerializer(serializers.ModelSerializer):
-    messages = serializers.PrimaryKeyRelatedField(many=True, queryset=Messages.objects.all())
-    
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'messages')
+        fields = ('id', 'username', 'email', 'password', )
         extra_kwargs = {
             'password': {
                 'write_only': True
