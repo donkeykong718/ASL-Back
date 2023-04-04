@@ -13,7 +13,7 @@ gunicorn = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 dj-database-url = "*"
-
+daphne = "*"
 
 [dev-packages]
 
