@@ -24,9 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8#j$1tbkkyoy%4)gh(v2ney=bm9ka6379=23ynvc63cv#3shxk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-e
 
-ALLOWED_HOSTS = ['127.0.0.1', 'asl-back.herokuapp.com']
+
 
 
 # Application definition
@@ -240,4 +239,4 @@ hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
 
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "'asl-back.herokuapp.com'"]
