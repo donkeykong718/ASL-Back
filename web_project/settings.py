@@ -239,4 +239,4 @@ hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
 
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "'asl-back.herokuapp.com'"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "asl-back.herokuapp.com",  ".herokuapp.com"]
