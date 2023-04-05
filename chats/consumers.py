@@ -20,7 +20,7 @@ class UUIDEncoder(json.JSONEncoder):
             return obj.hex
         return json.JSONEncoder.default(self, obj)
 
-
+    
 class ChatConsumer(JsonWebsocketConsumer):
     """
     This consumer is used to show user's online status,
@@ -91,12 +91,9 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.conversation.online.remove(self.user)
         return super().disconnect(code)
 
-    def get_receiver(self):
-        usernames = self.conversation_name.split("__")
-        for username in usernames:
-            if username != self.user.username:
-                # This is the receiver
-                return User.objects.get(username=username)
+    def get_receivers(self):
+        return self.conversation.online.all().exclude(username=self.user.username)
+    
 
     def receive_json(self, content, **kwargs):
         message_type = content["type"]
@@ -129,7 +126,6 @@ class ChatConsumer(JsonWebsocketConsumer):
 
             message = Message.objects.create(
                 from_user=self.user,
-                to_user=self.get_receiver(),
                 content=content["message"],
                 conversation=self.conversation,
             )
@@ -143,7 +139,7 @@ class ChatConsumer(JsonWebsocketConsumer):
                 },
             )
 
-            notification_group_name = self.get_receiver().username + "__notifications"
+            notification_group_name = self.get_receivers().username + "__notifications"
             async_to_sync(self.channel_layer.group_send)(
                 notification_group_name,
                 {

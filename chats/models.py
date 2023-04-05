@@ -24,6 +24,7 @@ class Conversation(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_online_count()})"
+  
 
 
 class Message(models.Model):
@@ -34,12 +35,11 @@ class Message(models.Model):
     from_user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="messages_from_me"
     )
-    to_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="messages_to_me"
-    )
+    
+
     content = models.CharField(max_length=512)
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"From {self.from_user.username} to {self.to_user.username}: {self.content} [{self.timestamp}]"
+        return f"From {self.from_user.username} to {self.conversation}: {self.content} [{self.timestamp}]"
