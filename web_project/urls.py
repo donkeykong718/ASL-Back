@@ -13,29 +13,100 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from ASL import views
-from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
 )
-  
+
+from chats.user_views import (
+    user_detail_view,
+    user_redirect_view,
+    user_update_view,
+)
+
+
+
+from django.conf import settings
+from rest_framework import routers
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+from django.views import defaults as default_views
+from django.views.generic import TemplateView
+
+from .api_router import CustomObtainAuthTokenView, UserViewSet, MessageViewSet, ConversationViewSet
+
+class CustomRouter(routers.SimpleRouter):
+    routes = [
+        
+    ]
+
+user_router = CustomRouter()
+      
 routers = routers.DefaultRouter()
 
-routers.register('chatbox', views.ChatBoxViewSet)
-routers.register('messages', views.MessagesViewSet)
-routers.register('users', views.UserViewSet)
+
+# routers = routers.DefaultRouter()
+
+# routers.register('chatbox', views.ChatBoxViewSet)
+# routers.register('messages', views.MessagesViewSet)
+# routers.register('users', views.UserViewSet)
+
+
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', include(routers.urls)),
+#     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+#     path ('api-token-auth/', TokenObtainPairView.as_view()),
+#     path ('api-token-refresh/', TokenRefreshView.as_view()),
+#     path ('api-token-verify/', TokenVerifyView.as_view()),
+    
+    
+# ]
+app_name = "web_project"
+
+
+routers.register(r"conversations", ConversationViewSet, basename="conversations")
+routers.register(r"messages", MessageViewSet, basename="messages")
+routers.register(r'users', UserViewSet, basename='users',)
+
 
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include(routers.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path ('api-token-auth/', TokenObtainPairView.as_view()),
-    path ('api-token-refresh/', TokenRefreshView.as_view()),
-    path ('api-token-verify/', TokenVerifyView.as_view()),
+    path('admin/', admin.site.urls),
+    path('token/', CustomObtainAuthTokenView.as_view(), name='token_obtain_pair'),
+    path('users/<str:username>/', user_detail_view, name='user_detail'),
+    path('users/<str:username>/update/', user_update_view, name='user_update'),
+    
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # Django Admin, use {% url 'admin:index' %}
+  
+   
+    # User management
+
+    
+    
+  
+    # Your stuff: custom urls includes go here
+
+
+
