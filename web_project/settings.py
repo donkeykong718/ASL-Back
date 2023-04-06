@@ -108,7 +108,6 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -117,6 +116,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 
@@ -227,19 +227,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_POLICY = {
-    'CORS_ORIGIN_ALLOW_ALL': True,
-    'CORS_ALLOW_CREDENTIALS': True,
-    'CORS_ORIGIN_WHITELIST': [
-        'http://localhost:3000',
-    ],
-    'CORS_ALLOW_HEADERS': [
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+       "http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/"
+)
 
-    ]
 
-}
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/",]
+
+
 
 
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
@@ -249,3 +246,13 @@ INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
 
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "asl-back.herokuapp.com",  ".herokuapp.com" ".vercel.app", "asl-back.vercel.app", "asl-back.hero"]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'https://asl-front-git-dev-donkeykong718.vercel.app/',
+    'https://asl-front.vercel.app/',
+    'https://asl-front.herokuapp.com/
+    'https://asl-back.herokuapp.com',
+    'https://asl-back.vercel.app',
+    
+]
