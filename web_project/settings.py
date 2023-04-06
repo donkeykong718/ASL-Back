@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'import_export',
-    
+    'channels_redis',
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
@@ -137,11 +138,19 @@ TEMPLATES = [
     },
 ]
 ASGI_APPLICATION = "web_project.routing.application"
+
+REDIS_URL = "redis://:pd12227b6956d83b511383d215ca272bc7b72d13c87e93e5d6a663d699d970ab9@ec2-54-147-148-138.compute-1.amazonaws.com:12359"
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': "channels.layers.InMemoryChannelLayer"
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": { 
+            "hosts": [REDIS_URL],
+        },
+    },  
 }
+
+          
 
 
 WSGI_APPLICATION = 'web_project.wsgi.application'
@@ -230,7 +239,7 @@ CORS_POLICY = {
 
 }
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/",]
 
 
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
