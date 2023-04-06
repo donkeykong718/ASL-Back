@@ -9,6 +9,7 @@ User = get_user_model()
 class Conversation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=128)
+    category = models.CharField(max_length=128, default="")
     online = models.ManyToManyField(to=User, blank=True)
 
     def get_online_count(self):

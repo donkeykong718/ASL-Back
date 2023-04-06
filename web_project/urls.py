@@ -19,6 +19,11 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+from chats.user_views import (
+    user_detail_view,
+    user_redirect_view,
+    user_update_view,
+)
 
 
 
@@ -74,9 +79,11 @@ urlpatterns = [
     path('', include(routers.urls)),
     path('admin/', admin.site.urls),
     path('token/', CustomObtainAuthTokenView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/verify', TokenVerifyView.as_view(), name='token_verify' )
+    path('users/<str:username>/', user_detail_view, name='user_detail'),
+    path('users/<str:username>/update/', user_update_view, name='user_update'),
+    
 ]
+
 
 
 

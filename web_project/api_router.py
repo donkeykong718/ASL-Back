@@ -91,12 +91,48 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (authentication.TokenAuthentication,)
+    
 
-    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
-    def login(self, request):
+
+    @action(detail=False, methods=['POST'], permission_classes=[permissions.AllowAny])
+    def register(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        user.set_password(user.password)
+        user.save()
+        token = Token.objects.create(user=user)
+        return Response({"token": token.key}, status=status.HTTP_201_CREATED)
+    @action(detail=False, methods=['PATCH'], permission_classes=[permissions.AllowAny])
+    def change_password(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         user = request.user
+        user.set_password(serializer.validated_data["password"])
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    @action(detail=False, methods=['GET'], permission_classes=[permissions.AllowAny])
+    def my_user_info(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    @action(detail=False, methods=['POST'], permission_classes=[permissions.AllowAny])
+    def login(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        return Response({"token": token.key}, status=status.HTTP_200_OK)
+    @action(detail=False, methods=['POST'], permission_classes=[permissions.AllowAny])
+    def logout(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+   
+    
+    
+    
+    
+    
+    
                         
                   
 

@@ -51,12 +51,7 @@ class TokenAuthentication:
 
 @database_sync_to_async
 def get_user(scope):
-    """
-    Return the user model instance associated with the given scope.
-    If no user is retrieved, return an instance of `AnonymousUser`.
-    """
-    # postpone model import to avoid ImproperlyConfigured error before Django
-    # setup is complete.
+    
   
 
     if "token" not in scope:
