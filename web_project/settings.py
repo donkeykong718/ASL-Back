@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'import_export',
-    
+    'channels_redis',
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
@@ -137,10 +137,15 @@ TEMPLATES = [
     },
 ]
 ASGI_APPLICATION = "web_project.routing.application"
+
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': "channels.layers.InMemoryChannelLayer"
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("ec2-54-147-148-138.compute-1.amazonaws.com", 12360)],
+        },
+    },
 }
 
 
