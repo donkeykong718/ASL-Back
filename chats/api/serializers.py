@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from chats.models import Message, Conversation
 
 
-
 User = get_user_model()
 
 
@@ -24,10 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-
-
-
-
 class MessageSerializer(serializers.ModelSerializer):
     from_user = serializers.SerializerMethodField()
     conversation = serializers.SerializerMethodField()
@@ -38,7 +33,7 @@ class MessageSerializer(serializers.ModelSerializer):
             "id",
             "conversation",
             "from_user",
-            
+
             "content",
             "timestamp",
             "read",
@@ -49,14 +44,14 @@ class MessageSerializer(serializers.ModelSerializer):
 
     def get_from_user(self, obj):
         return UserSerializer(obj.from_user).data
-   
+
 
 class ConversationSerializer(serializers.ModelSerializer):
     last_message = serializers.SerializerMethodField()
 
     class Meta:
         model = Conversation
-        fields = ("id", "name",  "last_message")
+        fields = ("id", "name", "category", "last_message")
 
     def get_last_message(self, obj):
         messages = obj.messages.all().order_by("-timestamp")
@@ -64,7 +59,3 @@ class ConversationSerializer(serializers.ModelSerializer):
             return None
         message = messages[0]
         return MessageSerializer(message).data
-
-
-  
-              
