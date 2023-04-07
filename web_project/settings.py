@@ -230,8 +230,9 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/",
-                        "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/",]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000",
+                        # "https://asl-front-git-dev-donkeykong718.vercel.app/",
+                        "https://www.vercel.app/", "https://www.herokuapp.com/",]
 
 
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
