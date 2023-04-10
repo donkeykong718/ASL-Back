@@ -14,7 +14,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web_project.settings')
 
 
 websocket_urlpatterns = [
-    path("chats/<conversation_name>/", ChatConsumer.as_asgi()),
+    path("chats/<category>/<conversation_name>/", ChatConsumer.as_asgi()),
 ]
 
 
