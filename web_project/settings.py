@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import socket
+from datetime import timedelta
 import os
 
 from pathlib import Path
@@ -27,8 +29,6 @@ SECRET_KEY = 'django-insecure-8#j$1tbkkyoy%4)gh(v2ney=bm9ka6379=23ynvc63cv#3shxk
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'chats',
     'channels',
     'rest_framework',
@@ -47,14 +47,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
-    
-    
-    
-    
+
+
+
+
 ]
 
 
-from datetime import timedelta
 ...
 
 SIMPLE_JWT = {
@@ -100,10 +99,10 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     # YOUR SETTINGS
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        
+
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
-    
+
 }
 
 MIDDLEWARE = [
@@ -144,13 +143,11 @@ REDIS_URL = "redis://:pd12227b6956d83b511383d215ca272bc7b72d13c87e93e5d6a663d699
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": { 
+        "CONFIG": {
             "hosts": [REDIS_URL],
         },
-    },  
+    },
 }
-
-          
 
 
 WSGI_APPLICATION = 'web_project.wsgi.application'
@@ -229,30 +226,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-       "http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/"
+    "http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/"
 )
+
 
 
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app", "https://asl-front.vercel.app", "https://asl-front.herokuapp.com",]
 
 
-
-
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
-import socket
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
 
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "asl-back.herokuapp.com",  ".herokuapp.com" ".vercel.app", "asl-back.vercel.app", "asl-back.hero"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "asl-back.herokuapp.com",
+                 ".herokuapp.com" ".vercel.app", "asl-back.vercel.app", "asl-back.hero"]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
+
     'https://asl-front-git-dev-donkeykong718.vercel.app',
     'https://asl-front.vercel.app',
     'https://asl-front.herokuapp.com',
-    'https://asl-back.herokuapp.com',
-    'https://asl-back.vercel.app',
-    
+
+
 ]
