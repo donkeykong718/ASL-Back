@@ -44,12 +44,19 @@ class ChatConsumer(JsonWebsocketConsumer):
         self.conversation_name = (
             f"{self.scope['url_route']['kwargs']['conversation_name']}"
         )
+        self.category = (
+            f"{self.scope['url_route']['kwargs']['category']}"
+        )
         self.conversation, created = Conversation.objects.get_or_create(
-            name=self.conversation_name
+            name=self.conversation_name,
+            category=self.category
+            
+            
         )
 
         async_to_sync(self.channel_layer.group_add)(
             self.conversation_name,
+            
             self.channel_name,
         )
 
