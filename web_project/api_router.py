@@ -93,7 +93,12 @@ class UserViewSet(viewsets.ModelViewSet):
     authentication_classes = (authentication.TokenAuthentication,)
     
 
-
+    @action(detail=False, methods=['Delete'], permission_classes=[permissions.AllowAny])
+    def delete_user(self, request):
+        req = request.data['username']
+        user = User.objects.get(username=req)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     @action(detail=False, methods=['POST'], permission_classes=[permissions.AllowAny])
     def register(self, request):
         serializer = self.get_serializer(data=request.data)
