@@ -138,7 +138,7 @@ TEMPLATES = [
 ]
 ASGI_APPLICATION = "web_project.routing.application"
 
-REDIS_URL = "redis://:pd12227b6956d83b511383d215ca272bc7b72d13c87e93e5d6a663d699d970ab9@ec2-54-147-148-138.compute-1.amazonaws.com:12359"
+REDIS_URL = "rediss://:pd12227b6956d83b511383d215ca272bc7b72d13c87e93e5d6a663d699d970ab9@ec2-44-207-145-112.compute-1.amazonaws.com:28630"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -226,7 +226,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-front.herokuapp.com/"
+    "http://localhost:3000", "https://asl-front-git-dev-donkeykong718.vercel.app/", "https://asl-front.vercel.app/", "https://asl-back.herokuapp.com/"
 )
 
 
